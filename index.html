@@ -1,280 +1,972 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>MP Famshop Price Calculator</title>
+<title>MP Famshop Price Calculator</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f3ee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .calculator {
-      width: 100%;
-      max-width: 430px;
-      background: white;
-      padding: 30px 25px;
-      border-radius: 20px;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.10);
-    }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7f1e9;
+  color: #3d2a1d;
+}
 
-    .logo {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
+.container {
+  width: 100%;
+  max-width: 1050px;
+  margin: auto;
+  padding: 20px;
+}
 
-    .subtitle {
-      text-align: center;
-      font-size: 15px;
-      color: #777;
-      margin-bottom: 30px;
-    }
+/* LOGO */
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
+.logo-area {
+  text-align: center;
+  padding: 10px 10px 20px;
+}
 
-    .input-wrapper {
-      display: flex;
-      align-items: center;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
+.logo {
+  width: 190px;
+  max-width: 70%;
+  height: auto;
+}
 
-    .currency {
-      padding-left: 15px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+.logo-fallback {
+  display: none;
+}
 
-    input {
-      width: 100%;
-      border: none;
-      outline: none;
-      padding: 15px 12px;
-      font-size: 18px;
-    }
+/* MAIN CARD */
 
-    select {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      font-size: 18px;
-      background: white;
-      margin-bottom: 20px;
-    }
+.main-card {
+  background: #fffdf9;
+  border-radius: 25px;
+  padding: 30px;
+  box-shadow: 0 8px 35px rgba(75, 49, 30, 0.12);
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #222;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.title {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 42px;
+  letter-spacing: 2px;
+  margin: 5px 0 30px;
+  color: #4b2f1d;
+}
 
-    .results {
-      margin-top: 25px;
-      display: none;
-    }
+.title-line {
+  width: 100px;
+  height: 2px;
+  background: #b58a4b;
+  margin: -15px auto 30px;
+}
 
-    .price-box {
-      padding: 20px;
-      background: #f7f3ee;
-      border-radius: 15px;
-      margin-bottom: 15px;
-    }
+/* INPUTS */
 
-    .price-label {
-      font-size: 15px;
-      color: #777;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
+.section-label {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #4b2f1d;
+}
 
-    .price {
-      font-size: 32px;
-      font-weight: bold;
-    }
+.section-subtitle {
+  font-size: 14px;
+  margin-top: -3px;
+  margin-bottom: 10px;
+  color: #705d50;
+}
 
-    .error {
-      color: #b00020;
-      font-size: 14px;
-      margin-top: 12px;
-      display: none;
-      text-align: center;
-    }
-  </style>
+.input-box {
+  display: flex;
+  border: 2px solid #ddd2c7;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 25px;
+}
+
+.currency {
+  padding: 15px 18px;
+  background: #f5eee5;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 18px;
+}
+
+select {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #ddd2c7;
+  border-radius: 12px;
+  font-size: 17px;
+  background: white;
+  margin-bottom: 20px;
+}
+
+/* SIZE GUIDE */
+
+.size-guide {
+  background: #faf5ef;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 10px 0 25px;
+}
+
+.guide-title {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #4b2f1d;
+}
+
+.size-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.size-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd2c7;
+}
+
+.size-header {
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.small {
+  background: #dce5d0;
+  color: #2f4b2b;
+}
+
+.medium {
+  background: #e1d6e9;
+  color: #59416e;
+}
+
+.large {
+  background: #ead2b0;
+  color: #67451f;
+}
+
+.size-list {
+  padding: 10px 12px;
+}
+
+.size-list div {
+  padding: 7px 0;
+  border-bottom: 1px dashed #ddd2c7;
+  font-size: 14px;
+}
+
+.size-list div:last-child {
+  border-bottom: none;
+}
+
+/* CALCULATE BUTTON */
+
+.calculate {
+  width: 100%;
+  padding: 17px;
+  border: none;
+  border-radius: 12px;
+  background: #4b2f1d;
+  color: white;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.calculate:hover {
+  opacity: 0.9;
+}
+
+/* RESULTS */
+
+.results {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.result-card {
+  padding: 25px 15px;
+  text-align: center;
+  border-radius: 18px;
+}
+
+.own-result {
+  background: #f0f3e7;
+}
+
+.sea-result {
+  background: #f2ebf7;
+}
+
+.result-title {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.own-result .result-title {
+  color: #315326;
+}
+
+.sea-result .result-title {
+  color: #5a3974;
+}
+
+.price {
+  font-size: 38px;
+  font-weight: bold;
+}
+
+.own-result .price {
+  color: #315326;
+}
+
+.sea-result .price {
+  color: #5a3974;
+}
+
+/* INFORMATION CARDS */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.info-card {
+  border-radius: 18px;
+  padding: 20px;
+  background: #faf7f2;
+  border: 1px solid #e4d9ce;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  font-family: Georgia, serif;
+  font-size: 20px;
+}
+
+.info-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+.info-card ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.info-card li {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 7px;
+}
+
+.own-info {
+  background: #f2f5ea;
+}
+
+.sea-info {
+  background: #f5eff8;
+}
+
+.air-info {
+  background: #faf2e7;
+}
+
+/* ETA */
+
+.eta-section {
+  margin-top: 18px;
+  background: #faf7f2;
+  border: 1px solid #e4d9ce;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.eta-title {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.eta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.eta-card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  border: 1px solid #e4d9ce;
+}
+
+.eta-card strong {
+  font-size: 17px;
+}
+
+.eta-card p {
+  margin-bottom: 0;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* SHIPPING */
+
+.shipping-section {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.shipping-card {
+  background: #faf7f2;
+  border: 1px solid #e4d9ce;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.shipping-card h3 {
+  font-family: Georgia, serif;
+  margin-top: 0;
+}
+
+.shipping-card p,
+.shipping-card li {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.shipping-card ul {
+  padding-left: 20px;
+}
+
+.box-rate {
+  margin: 8px 0;
+  padding: 8px;
+  border-bottom: 1px dashed #d8c9ba;
+}
+
+/* FOOTER */
+
+.footer {
+  text-align: center;
+  padding: 25px 10px 5px;
+  color: #705d50;
+  font-size: 14px;
+}
+
+.error {
+  display: none;
+  text-align: center;
+  color: #a52a2a;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  .container {
+    padding: 10px;
+  }
+
+  .main-card {
+    padding: 20px 15px;
+    border-radius: 18px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .size-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .results {
+    grid-template-columns: 1fr;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .eta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shipping-section {
+    grid-template-columns: 1fr;
+  }
+
+  .price {
+    font-size: 34px;
+  }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-  <div class="calculator">
+<div class="container">
 
-    <div class="logo">MP FAMSHOP</div>
+  <!-- LOGO -->
+  <div class="logo-area">
+    <img src="logo.png" class="logo" alt="MP Famshop Logo">
+  </div>
 
-    <div class="subtitle">
-      Price Calculator
+
+  <div class="main-card">
+
+    <div class="title">
+      PRICE CALCULATOR
     </div>
 
-    <label for="cadPrice">Enter CAD Price</label>
+    <div class="title-line"></div>
 
-    <div class="input-wrapper">
-      <span class="currency">$</span>
+
+    <!-- CAD PRICE -->
+
+    <div class="section-label">
+      ENTER CAD PRICE
+    </div>
+
+    <div class="input-box">
+
+      <div class="currency">$</div>
 
       <input
         type="number"
         id="cadPrice"
-        placeholder="Enter price"
+        placeholder="Enter price in CAD"
         min="0"
         step="0.01"
       >
+
     </div>
 
-    <label for="size">Select Size</label>
+
+    <!-- SIZE -->
+
+    <div class="section-label">
+      SIZE OF THE ITEM
+    </div>
+
+    <div class="section-subtitle">
+      Choose the size based on the examples below.
+    </div>
 
     <select id="size">
-      <option value="">Select size</option>
-      <option value="S">S</option>
-      <option value="M">M</option>
-      <option value="L">L</option>
+
+      <option value="">
+        Select size of the item
+      </option>
+
+      <option value="S">
+        S - Small
+      </option>
+
+      <option value="M">
+        M - Medium
+      </option>
+
+      <option value="L">
+        L - Large
+      </option>
+
     </select>
 
-    <button onclick="calculatePrice()">
-      CALCULATE
-    </button>
+
+    <!-- SIZE GUIDE -->
+
+    <div class="size-guide">
+
+      <div class="guide-title">
+        SIZE GUIDE
+      </div>
+
+      <div class="size-columns">
+
+
+        <div class="size-card">
+
+          <div class="size-header small">
+            S - SMALL
+          </div>
+
+          <div class="size-list">
+
+            <div>👕 Clothes</div>
+            <div>👔 Belts</div>
+            <div>👛 Wallets</div>
+            <div>👜 Mini Bags</div>
+
+          </div>
+
+        </div>
+
+
+        <div class="size-card">
+
+          <div class="size-header medium">
+            M - MEDIUM
+          </div>
+
+          <div class="size-list">
+
+            <div>👜 Satchels</div>
+
+          </div>
+
+        </div>
+
+
+        <div class="size-card">
+
+          <div class="size-header large">
+            L - LARGE
+          </div>
+
+          <div class="size-list">
+
+            <div>🎒 Backpacks</div>
+            <div>👟 Shoes</div>
+            <div>🛍️ Totes</div>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <!-- ERROR -->
 
     <div class="error" id="error">
-      Please enter a CAD price and select a size.
+      Please enter a CAD price and select the size of the item.
     </div>
+
+
+    <!-- CALCULATE -->
+
+    <button class="calculate" onclick="calculatePrice()">
+      🧮 &nbsp; CALCULATE
+    </button>
+
+
+    <!-- RESULTS -->
 
     <div class="results" id="results">
 
-      <div class="price-box">
-        <div class="price-label">
+
+      <div class="result-card own-result">
+
+        <div class="result-title">
           OWN BOX PRICE
         </div>
 
         <div class="price" id="ownBoxPrice">
           ₱0
         </div>
+
       </div>
 
-      <div class="price-box">
-        <div class="price-label">
+
+      <div class="result-card sea-result">
+
+        <div class="result-title">
           SEA PASABUY PRICE
         </div>
 
         <div class="price" id="seaPrice">
           ₱0
         </div>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- PAYMENT / SHIPPING OPTIONS -->
+
+    <div class="info-grid">
+
+
+      <!-- OWN BOX -->
+
+      <div class="info-card own-info">
+
+        <h3>
+          📦 OWN BOX
+        </h3>
+
+        <ul>
+
+          <li>
+            Buyers under OWN BOX will fill and pay for their own sea or air shipping fee.
+          </li>
+
+          <li>
+            Ship via Air — you will pay for your own air shipping fee.
+          </li>
+
+          <li>
+            Ship via Sea — you will pay for your own sea shipping fee.
+          </li>
+
+          <li>
+            The item will be shipped directly to you via your chosen air or sea option.
+          </li>
+
+          <li>
+            <strong>
+              Full payment before shipping.
+            </strong>
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <!-- SEA PASABUY -->
+
+      <div class="info-card sea-info">
+
+        <h3>
+          🚢 SEA PASABUY
+        </h3>
+
+        <ul>
+
+          <li>
+            Additional local shipping fee applies.
+          </li>
+
+          <li>
+            <strong>
+              30% deposit, 70% upon Pinas arrival.
+            </strong>
+          </li>
+
+          <li>
+            Balance should be paid within 2 weeks after Pinas arrival.
+          </li>
+
+          <li>
+            Deposit will be forfeited if the balance is not paid.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <!-- AIR PASABUY -->
+
+      <div class="info-card air-info">
+
+        <h3>
+          ✈️ AIR PASABUY
+        </h3>
+
+        <ul>
+
+          <li>
+            Price is based on the OWN BOX price plus the applicable air shipping fee.
+          </li>
+
+          <li>
+            <strong>
+              30% deposit required. 70% balance 2 weeks after Pinas Arrival. 
+            </strong>
+          </li>
+
+          <li>
+            Additional local shipping fee applies.
+          </li>
+
+        </ul>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- ETA -->
+
+    <div class="eta-section">
+
+      <div class="eta-title">
+        ⏱ ETA — ESTIMATED TIME OF ARRIVAL
+      </div>
+
+      <div class="eta-grid">
+
+
+        <div class="eta-card">
+
+          <strong>
+            ✈️ AIR ETA
+          </strong>
+
+          <p>
+            2 to 3 weeks
+          </p>
+
+        </div>
+
+
+        <div class="eta-card">
+
+          <strong>
+            🚢 SEA ETA
+          </strong>
+
+          <p>
+            • 2 to 3 months if no delay<br>
+            • 4 to 5 months if delayed
+          </p>
+
+        </div>
+
+
       </div>
 
     </div>
 
+
+    <!-- SHIPPING FEES -->
+
+    <div class="shipping-section">
+
+
+      <!-- AIR SHIPPING -->
+
+      <div class="shipping-card">
+
+        <h3>
+          ✈️ AIR SHIPPING FEE FROM CANADA
+        </h3>
+
+        <ul>
+
+          <li>
+            <strong>₱650/lb</strong> for pouch
+          </li>
+
+          <li>
+            Actual shipping fee for boxed items
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      <!-- SEA SHIPPING -->
+
+      <div class="shipping-card">
+
+        <h3>
+          🚚 SEA CARGO SHIPPING FEE TO YOUR DOORSTEP
+        </h3>
+
+        <p>
+          Varies based on courier, size and destination.
+        </p>
+
+        <p>
+          <strong>
+            Price may change based on current shipping rate.
+          </strong>
+        </p>
+
+
+        <div class="box-rate">
+          ✔️ Small Box — 18 × 18 × 12 in:
+        </div>
+
+        <div class="box-rate">
+          ✔️ Medium Box — 24 × 18 × 18 in:
+        </div>
+
+        <div class="box-rate">
+          ✔️ Large Box — 18 × 18 × 32 in:
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="footer">
+      ❤️ Thank you for supporting MP Famshop!
+      <br><br>
+      AUTHENTIC GOODS FROM CANADA 🇨🇦
+    </div>
+
+
   </div>
 
+</div>
 
-  <script>
 
-    function calculatePrice() {
+<script>
 
-      const cadPrice = parseFloat(
-        document.getElementById("cadPrice").value
-      );
+function calculatePrice() {
 
-      const size =
-        document.getElementById("size").value;
+  const cadPrice =
+    parseFloat(document.getElementById("cadPrice").value);
 
-      const error =
-        document.getElementById("error");
+  const size =
+    document.getElementById("size").value;
 
-      const results =
-        document.getElementById("results");
+  const error =
+    document.getElementById("error");
 
-      if (isNaN(cadPrice) || cadPrice <= 0 || size === "") {
+  const results =
+    document.getElementById("results");
 
-        error.style.display = "block";
-        results.style.display = "none";
 
-        return;
-      }
+  /* VALIDATION */
 
-      error.style.display = "none";
+  if (
+    isNaN(cadPrice) ||
+    cadPrice <= 0 ||
+    size === ""
+  ) {
 
-      // MP Famshop pricing rules
-      const markup = Math.max(cadPrice * 0.135, 5);
+    error.style.display = "block";
+    results.style.display = "none";
 
-      // Add markup before converting to PHP
-      const priceWithMarkup = cadPrice + markup;
+    return;
+  }
 
-      // Exchange rate
-      const exchangeRate = 46;
 
-      // Own Box Price
-      const ownBoxPHP =
-        priceWithMarkup * exchangeRate;
+  error.style.display = "none";
 
-      // Sea Pasabuy additional fee
-      let seaFee = 0;
 
-      if (size === "S") {
-        seaFee = 200;
-      }
+  /* MP FAMSHOP PRICING */
 
-      if (size === "M") {
-        seaFee = 400;
-      }
+  const markup =
+    Math.max(cadPrice * 0.135, 5);
 
-      if (size === "L") {
-        seaFee = 600;
-      }
 
-      // Sea Pasabuy Price
-      const seaPasabuyPHP =
-        ownBoxPHP + seaFee;
+  const priceWithMarkup =
+    cadPrice + markup;
 
-      // Round UP to the nearest ₱50
-      const finalOwnBox =
-        Math.ceil(ownBoxPHP / 50) * 50;
 
-      const finalSeaPrice =
-        Math.ceil(seaPasabuyPHP / 50) * 50;
+  const exchangeRate = 46;
 
-      document.getElementById("ownBoxPrice").textContent =
-        "₱" + finalOwnBox.toLocaleString("en-PH");
 
-      document.getElementById("seaPrice").textContent =
-        "₱" + finalSeaPrice.toLocaleString("en-PH");
+  /* OWN BOX */
 
-      results.style.display = "block";
-    }
+  const ownBoxPHP =
+    priceWithMarkup * exchangeRate;
 
-  </script>
+
+  /* SEA PASABUY SIZE FEE */
+
+  let seaFee = 0;
+
+
+  if (size === "S") {
+    seaFee = 200;
+  }
+
+  else if (size === "M") {
+    seaFee = 400;
+  }
+
+  else if (size === "L") {
+    seaFee = 600;
+  }
+
+
+  /* SEA PASABUY */
+
+  const seaPasabuyPHP =
+    ownBoxPHP + seaFee;
+
+
+  /* ROUND UP TO NEAREST ₱50 */
+
+  const finalOwnBox =
+    Math.ceil(ownBoxPHP / 50) * 50;
+
+
+  const finalSeaPrice =
+    Math.ceil(seaPasabuyPHP / 50) * 50;
+
+
+  /* DISPLAY */
+
+  document.getElementById("ownBoxPrice").textContent =
+    "₱" +
+    finalOwnBox.toLocaleString("en-PH");
+
+
+  document.getElementById("seaPrice").textContent =
+    "₱" +
+    finalSeaPrice.toLocaleString("en-PH");
+
+
+  results.style.display = "grid";
+
+}
+
+</script>
+
 
 </body>
 </html>
