@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MP Famshop Price Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f3ee;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .calculator {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 30px 25px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.10);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 15px;
+      color: #777;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .currency {
+      padding-left: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 15px 12px;
+      font-size: 18px;
+    }
+
+    select {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 18px;
+      background: white;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #222;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .results {
+      margin-top: 25px;
+      display: none;
+    }
+
+    .price-box {
+      padding: 20px;
+      background: #f7f3ee;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    .price-label {
+      font-size: 15px;
+      color: #777;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .error {
+      color: #b00020;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="calculator">
+
+    <div class="logo">MP FAMSHOP</div>
+
+    <div class="subtitle">
+      Price Calculator
+    </div>
+
+    <label for="cadPrice">Enter CAD Price</label>
+
+    <div class="input-wrapper">
+      <span class="currency">$</span>
+
+      <input
+        type="number"
+        id="cadPrice"
+        placeholder="Enter price"
+        min="0"
+        step="0.01"
+      >
+    </div>
+
+    <label for="size">Select Size</label>
+
+    <select id="size">
+      <option value="">Select size</option>
+      <option value="S">S</option>
+      <option value="M">M</option>
+      <option value="L">L</option>
+    </select>
+
+    <button onclick="calculatePrice()">
+      CALCULATE
+    </button>
+
+    <div class="error" id="error">
+      Please enter a CAD price and select a size.
+    </div>
+
+    <div class="results" id="results">
+
+      <div class="price-box">
+        <div class="price-label">
+          OWN BOX PRICE
+        </div>
+
+        <div class="price" id="ownBoxPrice">
+          ₱0
+        </div>
+      </div>
+
+      <div class="price-box">
+        <div class="price-label">
+          SEA PASABUY PRICE
+        </div>
+
+        <div class="price" id="seaPrice">
+          ₱0
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function calculatePrice() {
+
+      const cadPrice = parseFloat(
+        document.getElementById("cadPrice").value
+      );
+
+      const size =
+        document.getElementById("size").value;
+
+      const error =
+        document.getElementById("error");
+
+      const results =
+        document.getElementById("results");
+
+      if (isNaN(cadPrice) || cadPrice <= 0 || size === "") {
+
+        error.style.display = "block";
+        results.style.display = "none";
+
+        return;
+      }
+
+      error.style.display = "none";
+
+      // MP Famshop pricing rules
+      const markup = Math.max(cadPrice * 0.135, 5);
+
+      // Add markup before converting to PHP
+      const priceWithMarkup = cadPrice + markup;
+
+      // Exchange rate
+      const exchangeRate = 46;
+
+      // Own Box Price
+      const ownBoxPHP =
+        priceWithMarkup * exchangeRate;
+
+      // Sea Pasabuy additional fee
+      let seaFee = 0;
+
+      if (size === "S") {
+        seaFee = 200;
+      }
+
+      if (size === "M") {
+        seaFee = 400;
+      }
+
+      if (size === "L") {
+        seaFee = 600;
+      }
+
+      // Sea Pasabuy Price
+      const seaPasabuyPHP =
+        ownBoxPHP + seaFee;
+
+      // Round UP to the nearest ₱50
+      const finalOwnBox =
+        Math.ceil(ownBoxPHP / 50) * 50;
+
+      const finalSeaPrice =
+        Math.ceil(seaPasabuyPHP / 50) * 50;
+
+      document.getElementById("ownBoxPrice").textContent =
+        "₱" + finalOwnBox.toLocaleString("en-PH");
+
+      document.getElementById("seaPrice").textContent =
+        "₱" + finalSeaPrice.toLocaleString("en-PH");
+
+      results.style.display = "block";
+    }
+
+  </script>
+
+</body>
+</html>
