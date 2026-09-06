@@ -898,9 +898,7 @@ function calculatePrice() {
 
   /* MP FAMSHOP PRICING */
 
-  const markup =
-    Math.max(cadPrice * 0.1175, 5);
-
+  const markup = Math.min(Math.max(cadPrice * 0.10, 5), 15);
 
   const priceWithMarkup =
     cadPrice + markup;
